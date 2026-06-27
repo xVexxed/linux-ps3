@@ -1,0 +1,12 @@
+diff -Naur a/include/linux/mmzone.h b/include/linux/mmzone.h
+--- a/include/linux/mmzone.h	2025-04-10 08:34:31.589275753 +0700
++++ b/include/linux/mmzone.h	2025-04-10 08:34:32.435286803 +0700
+@@ -1814,7 +1814,7 @@
+ #define SECTION_BLOCKFLAGS_BITS \
+ 	((1UL << (PFN_SECTION_SHIFT - pageblock_order)) * NR_PAGEBLOCK_BITS)
+ 
+-#if (MAX_PAGE_ORDER + PAGE_SHIFT) > SECTION_SIZE_BITS
++#if (MAX_PAGE_ORDER - 1 + PAGE_SHIFT) > SECTION_SIZE_BITS
+ #error Allocator MAX_PAGE_ORDER exceeds SECTION_SIZE
+ #endif
+ 
