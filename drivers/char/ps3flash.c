@@ -28,14 +28,17 @@ struct ps3flash_private {
 	bool dirty;
 };
 
+static u64 region_flags =
+	0x0602040404000200;
+
 static struct ps3_storage_device *ps3flash_dev;
 
 static int ps3flash_read_write_sectors(struct ps3_storage_device *dev,
 				       u64 start_sector, int write)
 {
 	struct ps3flash_private *priv = ps3_system_bus_get_drvdata(&dev->sbd);
-	u64 res = ps3stor_read_write_sectors(dev, dev->bounce_lpar,
-					     start_sector, priv->chunk_sectors,
+	u64 res = ps3stor_read_write_sectors(dev, dev->bounce_lpar, dev->region_idx,
+					     start_sector, priv->chunk_sectors, region_flags,
 					     write);
 	if (res) {
 		dev_err(&dev->sbd.core, "%s:%u: %s failed 0x%llx\n", __func__,
