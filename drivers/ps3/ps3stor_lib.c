@@ -79,8 +79,9 @@ static int ps3stor_probe_access(struct ps3_storage_device *dev)
 	unsigned int i;
 	unsigned long n;
 
-	if (dev->sbd.match_id == PS3_MATCH_ID_STOR_ROM) {
-		/* special case: CD-ROM is assumed always accessible */
+	if ((dev->sbd.match_id == PS3_MATCH_ID_STOR_ROM) ||
+	    (dev->sbd.match_id == PS3_MATCH_ID_STOR_ENCDEC)) {
+		/* special case: CD-ROM and ENCDEC are assumed always accessible */
 		dev->accessible_regions = 1;
 		return 0;
 	}
@@ -330,8 +331,13 @@ u64 ps3stor_send_command(struct ps3_storage_device *dev, u64 cmd, u64 arg1,
 		return -1;
 	}
 
-	wait_for_completion(&dev->done);
-	if (dev->lv1_status) {
+	res = wait_for_completion_timeout(&dev->done, msecs_to_jiffies(2000));
+	if (res == 0) {
+		dev_err(&dev->sbd.core,
+			"%s:%u: send_device_command 0x%llx timed out\n",
+			__func__, __LINE__, cmd);
+		return -1;
+	} else if (dev->lv1_status) {
 		dev_dbg(&dev->sbd.core, "%s:%u: command 0x%llx failed 0x%llx\n",
 			__func__, __LINE__, cmd, dev->lv1_status);
 		return dev->lv1_status;
