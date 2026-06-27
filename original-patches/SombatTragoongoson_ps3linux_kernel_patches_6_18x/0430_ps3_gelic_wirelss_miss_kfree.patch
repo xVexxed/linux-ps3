@@ -1,0 +1,11 @@
+diff -Naur a/drivers/net/ethernet/toshiba/ps3_gelic_wireless.c b/drivers/net/ethernet/toshiba/ps3_gelic_wireless.c
+--- a/drivers/net/ethernet/toshiba/ps3_gelic_wireless.c	2025-04-10 08:34:50.837527511 +0700
++++ b/drivers/net/ethernet/toshiba/ps3_gelic_wireless.c	2025-04-10 08:34:52.539549806 +0700
+@@ -1479,7 +1479,6 @@
+ 		wl->scan_stat = GELIC_WL_SCAN_STAT_INIT;
+ 		complete(&wl->scan_done);
+ 		ret = -ENOMEM;
+-		goto out;
+ 	}
+ 	kfree(cmd);
+ out:

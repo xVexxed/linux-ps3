@@ -1,0 +1,11 @@
+diff -Naur a/arch/powerpc/include/asm/interrupt.h b/arch/powerpc/include/asm/interrupt.h
+--- a/arch/powerpc/include/asm/interrupt.h	2025-04-10 08:35:09.126767358 +0700
++++ b/arch/powerpc/include/asm/interrupt.h	2025-04-10 08:35:12.479811393 +0700
+@@ -106,6 +106,7 @@
+ 	return search_kernel_soft_mask_table(regs->nip);
+ }
+ 
++__attribute__((always_inline))
+ static inline void srr_regs_clobbered(void)
+ {
+ 	local_paca->srr_valid = 0;
