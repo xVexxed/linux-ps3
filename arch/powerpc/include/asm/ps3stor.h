@@ -39,7 +39,7 @@ struct ps3_storage_device {
 
 	unsigned int num_regions;
 	unsigned long accessible_regions;
-
+	unsigned int region_idx;				/* first accessible region */
 	struct ps3_storage_region regions[];	/* Must be last */
 };
 
