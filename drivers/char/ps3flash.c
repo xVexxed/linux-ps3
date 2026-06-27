@@ -28,6 +28,13 @@ struct ps3flash_private {
 	bool dirty;
 };
 
+// From drivers/block/ps3flash.c:
+/*
+static unsigned int region_flags[] =
+{
+	0x6, 0x2, 0x4, 0x4, 0x4, 0x0, 0x2, 0x0,
+};
+*/
 static u64 region_flags =
 	0x0602040404000200;
 
@@ -38,7 +45,7 @@ static int ps3flash_read_write_sectors(struct ps3_storage_device *dev,
 {
 	struct ps3flash_private *priv = ps3_system_bus_get_drvdata(&dev->sbd);
 	u64 res = ps3stor_read_write_sectors(dev, dev->bounce_lpar, dev->region_idx,
-					     start_sector, priv->chunk_sectors, region_flags,
+					     start_sector, priv->chunk_sectors, region_flags,	// No idea if this is correct. Needs testing.
 					     write);
 	if (res) {
 		dev_err(&dev->sbd.core, "%s:%u: %s failed 0x%llx\n", __func__,
